@@ -61,6 +61,7 @@ class Build(object):#创建类
         def __init__(self):#创建初始化方法
             self.window = tkinter.Tk()#创建窗口
             self.window.iconbitmap('icon.ico')
+            self.window.title('Infinite Budiler Tool')
 
         def gui(self):#创建gui方法
             self.window.mainloop()
