@@ -36,15 +36,33 @@ class Build(object):#创建类
         """
         return self.help#返回帮助消息
 
+    def comSelect(self):
+        return input('\n输入您要使用的功能\nEnter the function you want to use:')
+
     def comInitial(self):#创建初始化组件
         pass#TODO
 
     def comRunning(self):#创建运行组件
         pass#TODO
+    
+    def guiMode(self):
+        pass#TODO
 
-    def runningPack(self):#创建运行'整合包'
+    def terminalMode(self):
         print(self.getHelpInformation())#打印帮助信息
+        self.comSelect()#选择TODO
 
+    def runningPack(self,*options):#创建运行'整合包'
+        if 'type' in options:#判断有没有设置类型(type)
+            if options['type'] == 'terminal':#判断类型(type)是否为terminal(终端)
+                self.terminalMode()#调用Terminal(终端)模式
+            elif options['type'] == 'gui':#判断类型(type)是否为gui(用户交互界面)
+                self.guiMode()#调用GUI(用户交互界面)模式
+            else:#否则判断
+                raise ValueError("Type in Options but Type's value not == terminal or gui!")#报错 因为类型(type)设置错误
+        
+        else:#否则 这里只会是类型(type)没有填写
+            pass#TODO
 if __name__ == "__main__":
     buildToolClass = Build()#实例化Build类
 
