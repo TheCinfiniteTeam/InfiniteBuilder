@@ -1,8 +1,7 @@
 #encoding: utf-8
 #导入库
 from sys import builtin_module_names
-#from com.github.thecinfiniteteam.infinite_builder import *
-import os, zipfile, sys, json, time, socket, socketserver
+import os, zipfile, sys, json, time, base64, socket, socketserver
 
 class Build(object):#创建类
     def __init__(self):#创建初始化方法
@@ -36,7 +35,7 @@ class Build(object):#创建类
         """
         return self.help#返回帮助消息
 
-    def comSelect(self):
+    def comSelect(self):#创建选择方法
         return input('\n输入您要使用的功能\nEnter the function you want to use:')
 
     def comInitial(self):#创建初始化组件
@@ -45,14 +44,19 @@ class Build(object):#创建类
     def comRunning(self):#创建运行组件
         pass#TODO
     
-    def guiMode(self):
+    def guiMode(self):#创建GUI(用户交互界面)模式
         pass#TODO
 
-    def terminalMode(self):
+    def terminalMode(self):#定义终端(terminal)模式
         print(self.getHelpInformation())#打印帮助信息
         self.comSelect()#选择TODO
 
+    def base64Icon(self):#创建生产ico方法
+        with open(file='icon.ico',mode='wb') as imgIconFile:#使用with open创建icon.ico文件
+            imgIconFile.write(base64.b64decode(open(file='icon_base64',encoding='utf-8').read()))#解析base64创建icon.ico文件
+
     def runningPack(self,*options):#创建运行'整合包'
+        self.base64Icon()
         if 'type' in options:#判断有没有设置类型(type)
             if options['type'] == 'terminal':#判断类型(type)是否为terminal(终端)
                 self.terminalMode()#调用Terminal(终端)模式
