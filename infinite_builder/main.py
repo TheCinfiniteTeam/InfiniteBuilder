@@ -2,6 +2,7 @@
 #导入库
 from sys import builtin_module_names
 import os, zipfile, sys, json, time, base64, socket, socketserver
+import tkinter
 
 class Build(object):#创建类
     def __init__(self):#创建初始化方法
@@ -45,7 +46,8 @@ class Build(object):#创建类
         pass#TODO
     
     def guiMode(self):#创建GUI(用户交互界面)模式
-        pass#TODO
+        self.guiClass = self.GUI()#创建窗口
+        self.guiClass.gui()#调用gui方法
 
     def terminalMode(self):#定义终端(terminal)模式
         print(self.getHelpInformation())#打印帮助信息
@@ -55,19 +57,25 @@ class Build(object):#创建类
         with open(file='icon.ico',mode='wb') as imgIconFile:#使用with open创建icon.ico文件
             imgIconFile.write(base64.b64decode(open(file='icon_base64',encoding='utf-8').read()))#解析base64创建icon.ico文件
 
-    def runningPack(self,*options):#创建运行'整合包'
+    class GUI(object):#创建GUI类
+        def __init__(self):#创建初始化方法
+            self.window = tkinter.Tk()#创建窗口
+            self.window.iconbitmap('icon.ico')
+
+        def gui(self):#创建gui方法
+            self.window.mainloop()
+
+    def runningPack(self,mode):#创建运行'整合包'
         self.base64Icon()
-        if 'type' in options:#判断有没有设置类型(type)
-            if options['type'] == 'terminal':#判断类型(type)是否为terminal(终端)
-                self.terminalMode()#调用Terminal(终端)模式
-            elif options['type'] == 'gui':#判断类型(type)是否为gui(用户交互界面)
-                self.guiMode()#调用GUI(用户交互界面)模式
-            else:#否则判断
-                raise ValueError("Type in Options but Type's value not == terminal or gui!")#报错 因为类型(type)设置错误
-        
-        else:#否则 这里只会是类型(type)没有填写
-            pass#TODO
+        if mode == 'terminal':#判断模式(mode)是否为terminal(终端)
+            self.terminalMode()#调用Terminal(终端)模式
+        elif mode == 'gui':#判断模式(mode)是否为gui(用户交互界面)
+            self.guiMode()#调用GUI(用户交互界面)模式
+        else:#否则判断
+            raise ValueError("Type in Options but mode's value not == terminal or gui!")#报错 因为模式(mode)设置错误
 if __name__ == "__main__":
     buildToolClass = Build()#实例化Build类
 
-    buildToolClass.runningPack()#运行'整合包'
+    buildToolClass.runningPack(mode='gui')#运行'整合包'
+    
+    os.remove('icon.ico')#移除图标文件清理缓存
